@@ -2,7 +2,7 @@ package paco;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-
+//No consigo hacer que acabe
 public class Procesador {
 
 	int s = 5;
@@ -88,13 +88,17 @@ public class Procesador {
 			}
 			
 			//ALU
+			LinkedList<ID_ALU> aux = new LinkedList<ID_ALU>();
 			for(ID_ALU reg : ventanaInstrucciones){
 				if(reg.codOp==1 && sum0.isFree()){
 					sum0.set(reg, s);
-				}else if(reg.codOp==1 && sum0.isFree()){
-					sum0.set(reg, s);
+				}else if(reg.codOp==1 && sum1.isFree()){
+					sum1.set(reg, s);
+				}else{
+					aux.add(reg);
 				}
 			}
+			this.ventanaInstrucciones=aux;
 			//ID(IF_ID, ID_ALU, bancoRegistros
 			UnidadesFuncionales.ID(if_id0, id_alu0, bancoRegistros);
 			UnidadesFuncionales.ID(if_id1, id_alu1, bancoRegistros);
@@ -102,8 +106,13 @@ public class Procesador {
 			ventanaInstrucciones.addLast(new ID_ALU(id_alu1));
 			
 			//IF(PC, bancoInstrucciones, IF_ID)
-			UnidadesFuncionales.IF(pc, if_id0, bancoInstrucciones);
-			UnidadesFuncionales.IF(pc, if_id1, bancoInstrucciones);
+			try{
+				UnidadesFuncionales.IF(pc*2, if_id0, bancoInstrucciones);
+				UnidadesFuncionales.IF(pc*+1, if_id1, bancoInstrucciones);
+			}catch(Exception e){
+				break;
+			}
+			
 			
 			pc++;
 		}
